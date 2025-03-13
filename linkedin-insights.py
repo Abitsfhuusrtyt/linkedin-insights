@@ -1,6 +1,6 @@
 import os
 open("file", "app")
-os.makedirs("init", exist_ok=True)        # (Make sure this file exists!)
+os.makedirs("init", exist_ok=True)      
 from fastapi import FastAPI
 
 app = FastAPI()
