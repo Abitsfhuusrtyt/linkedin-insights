@@ -1,6 +1,6 @@
 import os
-open("file", "app")
-os.makedirs("init", exist_ok=True)      
+os.makedirs("app", exist_ok=True)
+open("app/__init__.py", "w").close()
 from fastapi import FastAPI
 
 app = FastAPI()
@@ -11,12 +11,11 @@ def home():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
            # Entry point for API
-os.makedirs("scraper",exist_ok=True) 
+open("app/scraper.py","w").close()
 import requests
 from bs4 import BeautifulSoup
-
 def scrape_linkedin_page(page_id):
     url = f"https://www.linkedin.com/company/{page_id}/"
     headers = {
@@ -36,18 +35,18 @@ def scrape_linkedin_page(page_id):
     return page_data
          # Scraper logic
           
-os.makedirs("db", exist_ok=True)      
+open("app/db.py","w").close()     
 from pymongo import MongoClient
-
-client = MongoClient("mongodb://localhost:27017/")
+try:
+    client = MongoClient("mongodb://localhost:27017/")
 db = client["linkedin_insights"]
 pages_collection = db["pages"]
          # Database connection
 os.makedirs("models", exist_ok=True)           # Data schema
 os.makedirs("routes", exist_ok=True)  
 from fastapi import APIRouter
-from app.scraper import scrape_linkedin_page
-from app.db import pages_collection
+from app.scraper import scrape_linkedin_page # type: ignore
+from app.db import pages_collection # type: ignore
 
 router = APIRouter()
 
@@ -64,6 +63,7 @@ def scrape_page(page_id: str):
 def get_pages():
     return list(pages_collection.find({}, {"_id": 0}))
          # API endpoints
-os.makedirs("env", exist_ok=True)    # Virtual environment
-os.makedirs("requirements", exist_ok=True)        # Dependencies
-os.makedirs("README.md", exist_ok=True)               # Documentation
+
+os.makedirs("env", exist_ok=True)  # Virtual environment
+open("requirements.txt", "w").close() # Dependencies
+open("README.md", "w").close()             # Documentation
